@@ -1,0 +1,38 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Build') { 
+            steps {
+                script {
+                    printBanner("BUILD STAGE")
+                    echo "This is Build stage."
+                }
+            }
+        }
+        stage('Test') { 
+            steps {
+                script {
+                    printBanner("TEST STAGE")
+                    echo "This is Test stage." 
+                }
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                script {
+                    printBanner("DEPLOY STAGE")
+                    echo "This is Deploy stage." 
+                }
+            }
+        }
+    }
+}
+
+// Function definition
+def printBanner(stageName) {
+    echo "======================"
+    echo "     ${stageName}     "
+    echo "======================"
+}
+
+
