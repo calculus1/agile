@@ -9,12 +9,12 @@ pipeline {
                         echo "This is Build stage."
 
                         // Add a badge for Build stage
-                        addBadge(icon: 'gear', text: 'Build Started')
+                        addBadge(text: 'Build Started')
                         
                     } catch (err) {
                         echo "ERROR in Build stage: ${err}"
                         currentBuild.result = 'FAILURE'
-                        addBadge(icon: 'error', text: 'Build Failed')
+                        addBadge(text: 'Build Failed')
                         error("Failing the pipeline due to Build error.")
                     }
                 }
@@ -28,12 +28,12 @@ pipeline {
                         echo "This is Test stage."
 
                         // Add a badge for Test stage
-                        addBadge(icon: 'star-gold', text: 'Test Started')
+                        addBadge(text: 'Test Started')
                         
                     } catch (err) {
                         echo "ERROR in Test stage: ${err}"
                         currentBuild.result = 'FAILURE'
-                        addBadge(icon: 'error', text: 'Test Failed')
+                        addBadge(text: 'Test Failed')
                         error("Failing the pipeline due to Test error.")
                     }
                 }
@@ -47,12 +47,12 @@ pipeline {
                         echo "This is Deploy stage."
 
                         // Add a badge for Deploy stage
-                        addBadge(icon: 'package', text: 'Deploy Started')
+                        addBadge(text: 'Deploy Started')
                         
                     } catch (err) {
                         echo "ERROR in Deploy stage: ${err}"
                         currentBuild.result = 'FAILURE'
-                        addBadge(icon: 'error', text: 'Deploy Failed')
+                        addBadge(text: 'Deploy Failed')
                         error("Failing the pipeline due to Deploy error.")
                     }
                 }
