@@ -1,0 +1,57 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Build') { 
+            steps {
+                script {
+                    try {
+                        printBanner("BUILD STAGE")
+                        echo "This is Build stage."
+                        
+                    } catch (err) {
+                        echo "ERROR in Build stage: ${err}"
+                        currentBuild.result = 'FAILURE'
+                        error("Failing the pipeline due to Build error.")
+                    }
+                }
+            }
+        }
+        stage('Test') { 
+            steps {
+                script {
+                    try {
+                        printBanner("TEST STAGE")
+                        echo "This is Test stage."
+                        
+                    } catch (err) {
+                        echo "ERROR in Test stage: ${err}"
+                        currentBuild.result = 'FAILURE'
+                        error("Failing the pipeline due to Test error.")
+                    }
+                }
+            }
+        }
+        stage('Deploy') { 
+            steps {
+                script {
+                    try {
+                        printBanner("DEPLOY STAGE")
+                        echo "This is Deploy stage."
+                        
+                    } catch (err) {
+                        echo "ERROR in Deploy stage: ${err}"
+                        currentBuild.result = 'FAILURE'
+                        error("Failing the pipeline due to Deploy error.")
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Function definition
+def printBanner(stageName) {
+    echo "======================"
+    echo "     ${stageName}     "
+    echo "======================"
+}
