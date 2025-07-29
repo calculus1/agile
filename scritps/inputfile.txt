@@ -1,0 +1,3 @@
+function = 'Management server"
+private_ip = "10.10.10.1"
+hostname = "server 1"
