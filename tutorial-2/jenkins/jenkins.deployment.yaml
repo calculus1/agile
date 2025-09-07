@@ -9,7 +9,7 @@ spec:
     matchLabels:
       app: jenkins
   replicas: 1
-  strategy:
+  strategy:kube
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
