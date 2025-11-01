@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: jenkins
-  namespace: jenkins
+  namespace: management
 spec:
   type: NodePort
   ports:
