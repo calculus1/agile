@@ -1,7 +1,7 @@
 resource "aws_instance" "test_server" {
   ami           = "ami-0953476d60561c955"
   instance_type = "t2.micro"
-  key_name = "script"
+  key_name = "jumpserver"
   associate_public_ip_address = true
   subnet_id = element(aws_subnet.public_subnets[*].id,0)
   #count = length(aws_subnet.public_subnets) 
@@ -24,7 +24,7 @@ resource "aws_instance" "test_server" {
        connection {
       type        = "ssh"
       user        = "ec2-user" 
-      private_key = file("C:/Users/eddie/.ssh/script.pem")
+      private_key = file("C:/Users/eddie/.ssh/jumpserver2.pem")
       host        = self.public_ip
       }
     }
@@ -36,7 +36,7 @@ resource "aws_instance" "test_server" {
   connection {
       type        = "ssh"
       user        = "ec2-user" 
-      private_key = file("C:/Users/eddie/.ssh/script.pem")
+      private_key = file("C:/Users/eddie/.ssh/jumpserver2.pem")
       host        = self.public_ip
     }
 
