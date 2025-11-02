@@ -56,7 +56,7 @@ output "subnet_ids" {
   value       = [for s in values(data.aws_subnet.subnet) : s.id]
 }
 
-  variable "ami_id" {
+variable "ami_id" {
     type = string
 }
 variable "instance_type" {
