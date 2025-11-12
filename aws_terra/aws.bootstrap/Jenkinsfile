@@ -33,7 +33,7 @@ pipeline {
                     printBanner("Prod STAGE")
                     echo "This is Prod stage." 
                 }
-                }
             }
         }   
     }
+}
