@@ -7,24 +7,36 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                
+              script {
+                    printBanner("Setup")
+                    echo "This is Setup." 
+                }  
             }
         }
         stage('Test') {
             steps {
-                
+                script {
+                    printBanner("Test")
+                    echo "This is Test stage." 
+                }
             }
         }
 
         stage('Package code') {
             steps {
-                
+                script {
+                    printBanner("Package STAGE")
+                    echo "This is Package stage." 
+                }
             }
         }
 
         stage('Deploy to Prod') {
             steps {
-                
+                script {
+                    printBanner("Prod STAGE")
+                    echo "This is Prod stage." 
+                }
                 }
             }
         }   
