@@ -1,12 +1,23 @@
 pipeline {
     agent any
     stages {
-        stage('Setup') {
+        stage('Bulid EC2') {
             steps {
               script {
-                    echo "This is Setup." 
+                    echo "Setup EC2." 
                 }  
             }
         }
+
+
+
+
+
+
+
+
+
+
+
     }
 }
