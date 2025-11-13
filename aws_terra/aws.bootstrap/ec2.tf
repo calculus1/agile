@@ -37,6 +37,7 @@ data "aws_subnet" "subnet" {
 resource "aws_instance" "test_env_ec2" {
   for_each = data.aws_subnet.subnet
   ami           = var.ami_id
+  count = 2
   instance_type = var.instance_type
   subnet_id     = each.value.id
 
