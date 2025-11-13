@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        stage('Bulid EC2') {
+        stage('Bulid') {
             steps {
               script {
                     echo "Setup EC2." 
@@ -9,13 +9,12 @@ pipeline {
             }
         }
         
-        stage('Bulid ') {
-            steps {
-              script {
-                    echo "Setup EC2." 
+        stage('Deploy EC2 ') {
+            parallel {
+                stage ('Deploy to AWS'){
+                    echo "deploying to aws" 
                 }  
             }
         }
     }
-
 }
