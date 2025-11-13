@@ -1,23 +1,4 @@
-
-provider "aws" {
-  region = "us-east-1"
-}
-
-terraform {
-  required_version = ">= 1.0"
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "5.75.1"
-    }
-   
-  }
-}
-# ---------------------
-# Data sources
-# ---------------------
-
+# Get all private subnets by Name tag
 data "aws_subnets" "private" {
   filter {
     name   = "tag:Name"
@@ -25,46 +6,43 @@ data "aws_subnets" "private" {
   }
 }
 
-data "aws_subnet" "subnet" {
+# Fetch details for each subnet (to get AZ)
+data "aws_subnet" "private_detail" {
   for_each = toset(data.aws_subnets.private.ids)
-  id       = each.value
+  id       = each.key
 }
 
-# ---------------------
-# EC2 resource
-# ---------------------
-
-resource "aws_instance" "test_env_ec2" {
-  for_each = data.aws_subnet.subnet
-  ami           = var.ami_id
-  count = 2
-  instance_type = var.instance_type
-  subnet_id     = each.value.id
-
-  tags = {
-    Name = "test-env-ec2-${each.key}"
-    Creation_time = time_static.JCRS-e-time.rfc3339
-    #Creator       = data.external.aws_username.result["name"]
+# Map subnets by AZ
+locals {
+  subnets_by_az = {
+    for s in data.aws_subnet.private_detail :
+    s.availability_zone => s.id
   }
 }
 
-# ---------------------
-# Outputs
-# ---------------------
-
-output "subnet_ids" {
-  description = "IDs of all subnets matched by the filter"
-  value       = [for s in values(data.aws_subnet.subnet) : s.id]
+# Randomly pick 2 AZs
+resource "random_shuffle" "azs" {
+  input        = keys(local.subnets_by_az)
+  result_count = 2
 }
 
-variable "ami_id" {
-    type = string
+# Create a map of selected subnets with unique keys for for_each
+locals {
+  selected_subnets_map = {
+    "ec2-1" = local.subnets_by_az[random_shuffle.azs.result[0]]
+    "ec2-2" = local.subnets_by_az[random_shuffle.azs.result[1]]
+  }
 }
-variable "instance_type" {
-  type = string
+
+# Deploy 2 EC2 instances
+resource "aws_instance" "test_env_ec2" {
+  for_each      = local.selected_subnets_map
+
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = each.value
+
+  tags = {
+    Name = each.key
+  }
 }
-/*
-data "external" "aws_username" {
-  program = ["sh", "-c", "aws sts get-caller-identity --output text --query 'Arn' | cut -d\"/\" -f2 | tr . \" \" | jq -R -c '{name: .}'"]
-}
-*/
