@@ -8,16 +8,14 @@ pipeline {
                 }  
             }
         }
-
-
-
-
-
-
-
-
-
-
-
+        
+        stage('Bulid EC2') {
+            steps {
+              script {
+                    echo "Setup EC2." 
+                }  
+            }
+        }
     }
+
 }
