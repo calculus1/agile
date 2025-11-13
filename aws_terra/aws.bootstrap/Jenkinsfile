@@ -9,7 +9,7 @@ pipeline {
             }
         }
         
-        stage('Bulid EC2') {
+        stage('Bulid ') {
             steps {
               script {
                     echo "Setup EC2." 
